@@ -1,0 +1,16 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Badge relay</title>
+<p>Sending badge images to App Store Connect… you can close this tab when it says done.</p>
+<script>
+(async () => {
+  const names = ['first_win','perfect_board','daily_streak_7','survival_5','shot_clock_hard','legends_25','collector_500','rank_all_star','rank_goat'];
+  const target = window.opener;
+  if (!target) { document.body.append(' No opener window.'); return; }
+  for (const n of names) {
+    const buf = await (await fetch('images/achievements/' + n + '.png')).arrayBuffer();
+    target.postMessage({ badge: n, buf }, 'https://appstoreconnect.apple.com', [buf]);
+  }
+  document.body.append(' Done.');
+})();
+</script>
